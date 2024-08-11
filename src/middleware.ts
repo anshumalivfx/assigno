@@ -10,6 +10,7 @@ export const config = {
     "/sign-up",
     "/",
     "/admin",
+    "/admin-login",
     "/verify/:path*",
     "/new-password/:path*",
     "/employee-sign-in",
@@ -24,11 +25,18 @@ export async function middleware(request: NextRequest) {
   console.log(`Request Path: ${url.pathname}`);
 
   if (token) {
-    if (url.pathname.startsWith("/admin-login") || url.pathname === "/") {
+    if (
+      url.pathname.startsWith("/sign-in") ||
+      url.pathname.startsWith("/sign-up") ||
+      url.pathname.startsWith("/new-password") ||
+      url.pathname.startsWith("/verify") ||
+      url.pathname.startsWith("/employee-sign-in") ||
+      url.pathname === "/"
+    ) {
       return NextResponse.redirect(new URL("/admin", request.url));
     }
-  } else if (url.pathname === "/" || url.pathname.startsWith("/admin")) {
-    return NextResponse.redirect(new URL("/admin-login", request.url));
+  } else if (url.pathname === "/admin") {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
   return NextResponse.next();

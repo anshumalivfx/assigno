@@ -18,15 +18,13 @@ export const authOptions: NextAuthOptions = {
         try {
           const user = await prisma.admin.findFirst({
             where: {
-              OR: [
-                { username: credentials.identifier },
-              ],
+              OR: [{ username: credentials.identifier }],
             },
           });
           if (!user) {
-            throw new Error("No user found with this email");
+            throw new Error("No user found with this username");
           }
-          
+
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
