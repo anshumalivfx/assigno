@@ -3,13 +3,24 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { LoginFormValues, loginSchema } from "@/schemas/login-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Component() {
+  const forms = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
   return (
     <div className="flex h-screen w-full items-center justify-center bg-gradient-to-br from-[#9b59b6] to-[#8e44ad] bg-[length:400%_400%] animate-gradient">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg transition-all duration-300 hover:scale-105">
         <h1 className="mb-6 text-3xl font-bold text-primary">Login</h1>
-        <Form>
+        <Form {...forms}>
           <form className="space-y-4">
             <div>
               <Label
